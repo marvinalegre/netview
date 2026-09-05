@@ -1,6 +1,6 @@
 import * as acorn from "acorn";
 
-export async function getUserDevInfo() {
+export async function getDevices() {
   const randomNumber = await (
     await fetch("http://192.168.100.1/asp/GetRandCount.asp")
   ).text();
@@ -140,5 +140,6 @@ function USERDevice(
 
 `;
 
-  return eval(fragment + varDeclartionStmt + "UserDevinfo");
+  const tmp = eval(fragment + varDeclartionStmt + "UserDevinfo");
+  return tmp.filter((d) => d !== null);
 }

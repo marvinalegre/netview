@@ -12,6 +12,8 @@
   "packageManager": "pnpm@11.22.0",
   "type": "module",
   "dependencies": {
-    "acorn": "^8.18.0"
+    "@hono/node-server": "^2.1.1",
+    "acorn": "^8.18.0",
+    "hono": "^4.13.5"
   }
 }
