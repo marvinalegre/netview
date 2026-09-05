@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --env-file=.env src/server.js"
+    "start": "node --env-file=.env src/server.js",
+    "migration:create": "tsx scripts/migrate.ts create",
+    "migration:up": "tsx scripts/migrate.ts up",
+    "migration:down": "tsx scripts/migrate.ts down",
+    "migration:status": "tsx scripts/migrate.ts status",
+    "migration:reset": "tsx scripts/migrate.ts reset",
+    "migration:fresh": "tsx scripts/migrate.ts fresh"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +21,9 @@
     "@hono/node-server": "^2.1.1",
     "acorn": "^8.18.0",
     "hono": "^4.13.5"
+  },
+  "devDependencies": {
+    "better-sqlite3": "^13.0.3",
+    "tsx": "^4.23.13"
   }
 }
