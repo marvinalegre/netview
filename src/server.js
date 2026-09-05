@@ -29,9 +29,11 @@ app.get("/api/devices", async (c) => {
 
 app.use("/*", serveStatic({ root: "./public" }));
 
+const host = process.argv.includes("--host") ? "0.0.0.0" : "127.0.0.1";
 serve({
   fetch: app.fetch,
   port: 4000,
+  hostname: host,
 });
 
 console.log("Server running on http://localhost:4000");
