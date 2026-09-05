@@ -24,7 +24,7 @@ export async function getDevices() {
     },
     body: new URLSearchParams({
       UserName: "root",
-      PassWord: "YWRtaW5IVw==",
+      PassWord: process.env.PASSWORD,
       Language: "english",
       "x.X_HW_Token": randomNumber,
     }),
