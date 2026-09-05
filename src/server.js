@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { getDevices } from "./devices.js";
+import { startDiscovery } from "./discovery.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 
 const app = new Hono();
@@ -28,6 +29,8 @@ app.get("/api/devices", async (c) => {
 });
 
 app.use("/*", serveStatic({ root: "./public" }));
+
+startDiscovery();
 
 const host = process.argv.includes("--host") ? "0.0.0.0" : "127.0.0.1";
 serve({
