@@ -10,8 +10,5 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@11.22.0",
-  "type": "module",
-  "dependencies": {
-    "tough-cookie": "^6.0.2"
-  }
+  "type": "module"
 }
