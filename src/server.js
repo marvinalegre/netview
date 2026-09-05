@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { getDevices } from "./devices.js";
+import { serveStatic } from "@hono/node-server/serve-static";
 
 const app = new Hono();
 
@@ -26,9 +27,11 @@ app.get("/api/devices", async (c) => {
   }
 });
 
+app.use("/*", serveStatic({ root: "./public" }));
+
 serve({
   fetch: app.fetch,
-  port: 3000,
+  port: 4000,
 });
 
-console.log("Server running on http://localhost:3000");
+console.log("Server running on http://localhost:4000");
