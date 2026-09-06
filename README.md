@@ -2,6 +2,10 @@
 
 NetView is a lightweight local network monitoring dashboard for viewing devices connected to your network.
 
+<p align="center">
+  <img src="./assets/ss.png" alt="Netview screenshot" width="800">
+</p>
+
 ## Features
 
 - 📱 View connected devices
