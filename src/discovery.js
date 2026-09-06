@@ -23,6 +23,9 @@ export async function discoverDevices() {
   }
 
   console.log(`Discovered ${devices.length} devices`);
+
+  const onlineCount = devices.filter((d) => d.DevStatus === "Online").length;
+  recordOnlineCount(onlineCount);
 }
 
 export function startDiscovery() {
@@ -33,4 +36,13 @@ export function startDiscovery() {
   setInterval(() => {
     discoverDevices().catch(console.error);
   }, INTERVAL);
+}
+
+function recordOnlineCount(count) {
+  db.prepare(
+    `
+    INSERT INTO online_counts (online_count)
+    VALUES (?)
+  `,
+  ).run(count);
 }
