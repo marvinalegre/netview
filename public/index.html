@@ -34,8 +34,63 @@
       <section id="devices" class="devices">
         <p class="loading">Loading devices...</p>
       </section>
+
+      <div class="chart">
+        <canvas id="online-chart"></canvas>
+      </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/app.js"></script>
+    <script>
+      const ctx = document.getElementById("online-chart");
+
+      const chart = new Chart(ctx, {
+        type: "line",
+
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "Online devices",
+              data: [],
+              borderColor: "black",
+              borderWidth: 2,
+              tension: 0.3,
+              pointRadius: 2,
+            },
+          ],
+        },
+
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0,
+              },
+            },
+          },
+        },
+      });
+
+      async function loadOnlineCounts() {
+        const response = await fetch("/api/online-counts");
+        const rows = await response.json();
+
+        chart.data.labels = rows.map((row) =>
+          new Date(row.recorded_at).toLocaleTimeString(),
+        );
+
+        chart.data.datasets[0].data = rows.map((row) => row.online_count);
+
+        chart.update();
+      }
+
+      loadOnlineCounts();
+    </script>
   </body>
 </html>

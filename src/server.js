@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { getDevices } from "./devices.js";
 import { startDiscovery } from "./discovery.js";
+import db from "./db.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 
 const app = new Hono();
@@ -26,6 +27,20 @@ app.get("/api/devices", async (c) => {
 
     return c.json({ error: "Failed to get devices" }, 500);
   }
+});
+
+app.get("/api/online-counts", (c) => {
+  const rows = db
+    .prepare(
+      `
+      SELECT online_count, recorded_at
+      FROM online_counts
+      ORDER BY recorded_at ASC
+    `,
+    )
+    .all();
+
+  return c.json(rows);
 });
 
 app.use("/*", serveStatic({ root: "./public" }));

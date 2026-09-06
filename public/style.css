@@ -164,6 +164,12 @@ button:disabled {
   color: #666;
 }
 
+.chart {
+  margin: 10rem 0;
+  height: 300px;
+  width: 100%;
+}
+
 @media (max-width: 600px) {
   .container {
     width: min(100% - 1rem, 900px);
