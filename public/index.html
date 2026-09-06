@@ -9,12 +9,26 @@
   <body>
     <main class="container">
       <header class="header">
-        <div>
+        <div class="header__info">
           <h1>Network Devices</h1>
           <p id="summary">Loading...</p>
         </div>
 
-        <button id="refresh" type="button">↻ Refresh</button>
+        <div class="header__actions">
+          <label class="view-toggle">
+            <input
+              class="view-toggle__input"
+              type="checkbox"
+              id="detail-toggle"
+              checked
+            />
+            <span class="view-toggle__label">Detailed</span>
+          </label>
+
+          <button class="header__refresh" id="refresh" type="button">
+            ↻ Refresh
+          </button>
+        </div>
       </header>
 
       <section id="devices" class="devices">

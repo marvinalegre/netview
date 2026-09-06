@@ -1,6 +1,7 @@
 const devicesElement = document.querySelector("#devices");
 const summaryElement = document.querySelector("#summary");
 const refreshButton = document.querySelector("#refresh");
+const toggle = document.querySelector("#detail-toggle");
 
 async function loadDevices() {
   refreshButton.disabled = true;
@@ -115,3 +116,9 @@ function escapeHtml(value) {
 refreshButton.addEventListener("click", loadDevices);
 
 loadDevices();
+
+toggle.addEventListener("change", () => {
+  document.querySelectorAll(".details").forEach((el) => {
+    el.style.display = toggle.checked ? "" : "none";
+  });
+});

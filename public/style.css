@@ -19,18 +19,72 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem;
 }
 
-h1 {
+.header__info {
+  min-width: 0;
+}
+
+.header__info h1 {
   margin: 0;
-  font-size: 1.75rem;
+  font-size: 1.4rem;
+  line-height: 1.2;
 }
 
-.header p {
-  margin: 0.25rem 0 0;
+.header__info p {
+  margin: 0.3rem 0 0;
   color: #666;
+  font-size: 0.875rem;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-shrink: 0;
+}
+
+/* Detailed toggle */
+.view-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.875rem;
+  color: #444;
+}
+
+.view-toggle__input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  cursor: pointer;
+  accent-color: black;
+}
+
+.view-toggle__label {
+  white-space: nowrap;
+}
+
+/* Refresh button */
+.header__refresh {
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.header__refresh:hover {
+  background: #f5f5f5;
+}
+
+.header__refresh:active {
+  background: #eee;
 }
 
 button {
@@ -49,8 +103,8 @@ button:disabled {
 }
 
 .devices {
-  display: grid;
-  gap: 0.75rem;
+  max-width: 500px;
+  margin: 3rem auto;
 }
 
 .device {
@@ -58,13 +112,13 @@ button:disabled {
   border: 1px solid #ddd;
   border-radius: 0.75rem;
   padding: 1rem;
+  margin: 1rem 0;
 }
 
 .device-header {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 0.75rem;
 }
 
 .status {
@@ -87,6 +141,7 @@ button:disabled {
 }
 
 .details {
+  margin-top: 0.75rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem 1rem;
@@ -117,6 +172,21 @@ button:disabled {
 
   .header {
     align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .header__actions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .header__info h1 {
+    font-size: 1.2rem;
+  }
+
+  .devices {
+    margin: 0 auto;
   }
 
   .details {
