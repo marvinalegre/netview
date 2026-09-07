@@ -45,19 +45,21 @@
     <script>
       const ctx = document.getElementById("online-chart");
 
+      const DAY = 24 * 60 * 60 * 1000;
+      const ticks = [];
+
       const chart = new Chart(ctx, {
         type: "line",
 
         data: {
-          labels: [],
           datasets: [
             {
               label: "Online devices",
               data: [],
               borderColor: "black",
               borderWidth: 2,
-              tension: 0.3,
-              pointRadius: 2,
+              pointRadius: 4,
+              tension: 0.2,
             },
           ],
         },
@@ -67,10 +69,39 @@
           maintainAspectRatio: false,
 
           scales: {
+            x: {
+              type: "linear",
+
+              afterBuildTicks: (scale) => {
+                scale.ticks = ticks.map((value) => ({
+                  value,
+                }));
+              },
+
+              ticks: {
+                callback: (value) => {
+                  return new Date(value).toLocaleDateString("en-CA", {
+                    timeZone: "Asia/Manila",
+                  });
+                },
+              },
+
+              title: {
+                display: true,
+                text: "Date",
+              },
+            },
+
             y: {
               beginAtZero: true,
+
               ticks: {
                 precision: 0,
+              },
+
+              title: {
+                display: true,
+                text: "Count",
               },
             },
           },
@@ -81,11 +112,59 @@
         const response = await fetch("/api/online-counts");
         const rows = await response.json();
 
-        chart.data.labels = rows.map((row) =>
-          new Date(row.recorded_at).toLocaleTimeString(),
+        if (rows.length === 0) {
+          return;
+        }
+
+        // Convert database rows into { x, y } points.
+        const points = rows.map((row) => ({
+          x: new Date(row.recorded_at).getTime(),
+          y: row.online_count,
+        }));
+
+        /*
+         * Get the date of the first and last records
+         * in Manila time.
+         */
+        const firstDate = new Date(rows[0].recorded_at).toLocaleDateString(
+          "en-CA",
+          {
+            timeZone: "Asia/Manila",
+          },
         );
 
-        chart.data.datasets[0].data = rows.map((row) => row.online_count);
+        const lastDate = new Date(
+          rows[rows.length - 1].recorded_at,
+        ).toLocaleDateString("en-CA", {
+          timeZone: "Asia/Manila",
+        });
+
+        /*
+         * Same behavior as your example:
+         *
+         * firstDate + 1 day
+         * -----------------
+         * first tick starts at midnight of the
+         * day AFTER the first record.
+         */
+        const first = new Date(`${firstDate}T00:00:00+08:00`);
+
+        first.setDate(first.getDate() + 1);
+
+        const start = first.getTime();
+
+        const end = new Date(`${lastDate}T00:00:00+08:00`).getTime();
+
+        /*
+         * Generate one midnight tick per day.
+         */
+        ticks.length = 0;
+
+        for (let t = start; t <= end; t += DAY) {
+          ticks.push(t);
+        }
+
+        chart.data.datasets[0].data = points;
 
         chart.update();
       }
